@@ -270,9 +270,10 @@ public class formularioBusqueda extends javax.swing.JFrame {
 		operaciones Datos = new operaciones("s");
 		DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 		model.setRowCount(0);
+		//long t0 = System.nanoTime();
 		if (jTextField1.getText().isEmpty()) {
-			
 			for (int i = 0; i < Holder.q.getLength(); i++) {
+				
 				Vehiculo buscar_vehiculo = Holder.q.deQueue();
 				
 				String placa = buscar_vehiculo.getplaca();
@@ -288,7 +289,30 @@ public class formularioBusqueda extends javax.swing.JFrame {
 						new Object[] { placa, fecha, horaIngreso, horaSalida, tipoVehiculo, tarifa, valor_pagado });
 				Holder.q.enQueue(buscar_vehiculo);
 			}
-
+			 
+//		if (jTextField1.getText().isEmpty()) {
+//			long t0 = System.nanoTime();
+//			for (int i = 0; i < Holder.q.getLength(); i++) {
+//				
+//				Vehiculo buscar_vehiculo = Holder.q.deQueue();
+//				
+//				String placa = buscar_vehiculo.getplaca();
+//				Date fecha = buscar_vehiculo.getfecha();
+//				Time horaIngreso = buscar_vehiculo.gethoraIngreso();
+//				horaSalida = buscar_vehiculo.gethoraSalida();
+//
+//				String tipoVehiculo = buscar_vehiculo.gettipoVechiculo();
+//				int tarifa = buscar_vehiculo.gettarifa();
+//				Double valor_pagado = buscar_vehiculo.getpago();
+//
+//				model.addRow(
+//						new Object[] { placa, fecha, horaIngreso, horaSalida, tipoVehiculo, tarifa, valor_pagado });
+//				Holder.q.enQueue(buscar_vehiculo);
+//			}
+//			long tf = System.nanoTime();
+//			 System.out.println(tf-t0);
+			
+			
 //			try {
 //				ResultSet vehiculos = Datos.Recuperar();
 //				while (vehiculos.next()) {
@@ -313,12 +337,13 @@ public class formularioBusqueda extends javax.swing.JFrame {
 //			}
 
 		}else
+			
 		for (int i = 0; i < Holder.q.getLength(); i++) {
- 
+			
 			Vehiculo buscar_vehiculo = Holder.q.deQueue();
 
-			if (buscar_vehiculo.getplaca().equalsIgnoreCase(jTextField1.getText())) {
-				
+		if (buscar_vehiculo.getplaca().equalsIgnoreCase(jTextField1.getText())) {
+			//if(i == Holder.q.getLength()-1) {
 
 				String placa = buscar_vehiculo.getplaca();
 				Date fecha = buscar_vehiculo.getfecha();
@@ -331,6 +356,8 @@ public class formularioBusqueda extends javax.swing.JFrame {
 
 				model.addRow(new Object[] { placa, fecha, horaIngreso, horaSalida, tipoVehiculo, tarifa, valor_pagado });
 				Holder.q.enQueue(buscar_vehiculo);
+				//long tf = System.nanoTime();
+				 //System.out.println(tf-t0);
 				break;
 			} else
 				Holder.q.enQueue(buscar_vehiculo);
