@@ -11,19 +11,27 @@ import modelview.operaciones;
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import modelview.Vehiculo;
+import modelview.conjuntos;
+
 
 /**
  *
  * @author Sebas
  */
+
 public class formularioSalida extends javax.swing.JFrame {
 
     /**
      * Creates new form formularioSalida
      */
     private Vehiculo vehiculoaSalir;
-    public formularioSalida() {
+    public conjuntos parqueadero;
+    public formularioSalida(conjuntos parqueadero) {
+        this.parqueadero = parqueadero;
+        System.out.println("Instancia de conjuntos en formulariosalida: " + System.identityHashCode(this.parqueadero));
+
         initComponents();
     }
 
@@ -239,8 +247,15 @@ public class formularioSalida extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         operaciones buscar =new operaciones("");
-        
-        
+        String placaBuscar = jTextField1.getText(); // Obtener la placa desde un campo de texto
+            if (placaBuscar != null && !placaBuscar.trim().isEmpty()) {
+                String resultado = parqueadero.encontrarPlaca(placaBuscar);
+                System.out.println(resultado);
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese una placa.");
+            }
+                
+            
         try {
             
             vehiculoaSalir = buscar.consulta(jTextField1.getText());
@@ -248,14 +263,30 @@ public class formularioSalida extends javax.swing.JFrame {
             jLabel8.setText(String.valueOf(vehiculoaSalir.gethoraIngreso()));
             jLabel10.setText(vehiculoaSalir.gettipoVechiculo());
             jLabel11.setText(String.valueOf(vehiculoaSalir.gettarifa()));
+            
+            
+            
 
         } catch (SQLException ex) {
             Logger.getLogger(formularioSalida.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+            String placaRetirar = jTextField1.getText(); // Obtener la placa desde un campo de texto
+        if (placaRetirar != null && !placaRetirar.trim().isEmpty()) {
+            boolean resultado = parqueadero.vaciarEspacio(placaRetirar);
+            if (resultado) {
+                System.out.println("Espacio vaciado correctamente.");
+            } else {
+                System.out.println("La placa no fue encontrada.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, ingrese una placa.");
+        }
+        
         
         operaciones buscar =new operaciones("");
         buscar.Cobro(vehiculoaSalir);
@@ -309,12 +340,12 @@ public class formularioSalida extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new formularioSalida().setVisible(true);
-            }
-        });
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new formularioSalida().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

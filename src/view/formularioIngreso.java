@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Parquea;
 import modelview.Vehiculo;
+import modelview.conjuntos;
 import modelview.operaciones;
 import modelview.principal;
 
@@ -20,12 +21,17 @@ import modelview.principal;
  * @author David
  */
 public class formularioIngreso extends javax.swing.JFrame {
-
+    public conjuntos parqueadero;
     /**
      * Creates new form formularioIngreso
+     * @param parqueadero
      */
-    public formularioIngreso() {
+    public formularioIngreso(conjuntos parqueadero) {
+        this.parqueadero = parqueadero;
+        System.out.println("Instancia de conjuntos en formularioIngreso: " + System.identityHashCode(this.parqueadero));
+
         initComponents();
+        
     }
 
     /**
@@ -210,6 +216,7 @@ public class formularioIngreso extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Rbotones.add(RbottonCarro);
         Rbotones.add(RbottonMoto);
+        
         operaciones op = new operaciones(placa1.getText());
         if(RbottonCarro.isSelected()){
             op.settipoVechiculo("CARRO");
@@ -219,11 +226,15 @@ public class formularioIngreso extends javax.swing.JFrame {
             op.settarifa(60);
         }
         try {
-            op.guardar(op);
-            JOptionPane.showMessageDialog(rootPane, "Vehiculo guardado");
-            jLabel7.setText(op.gethoraIngreso().toString());
-            jLabel8.setText(op.gettarifa().toString());
-            
+            if(parqueadero.agregarPlacaEnPrimerEspacioVacio(placa1.getText())){
+                System.out.println("Guardando placa en parqueadero instancia: " + System.identityHashCode(parqueadero));
+                op.guardar(op);
+                JOptionPane.showMessageDialog(rootPane, "Vehiculo guardado");
+                jLabel7.setText(op.gethoraIngreso().toString());
+                jLabel8.setText(op.gettarifa().toString());
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "No hay espacios disponibles en el parqueadero.");
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(formularioIngreso.class.getName()).log(Level.SEVERE, null, ex);
@@ -273,11 +284,11 @@ public class formularioIngreso extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new formularioIngreso().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//               new formularioIngreso(parqueadero).setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
