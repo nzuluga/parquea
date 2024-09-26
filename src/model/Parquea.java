@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package model;
-
+//Primer comentario por Diego
 import com.mysql.jdbc.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
